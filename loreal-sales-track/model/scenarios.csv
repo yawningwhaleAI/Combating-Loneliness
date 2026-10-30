@@ -1,0 +1,4 @@
+Scenario,Loss pool (cr),Handling pool (cr),Addressable loss (cr),Addressable handling (cr),Loss avoided (cr),Handling avoided (cr),Recovery cost (cr),Incremental sell-in from fewer OOS (cr),Contribution on it (cr),Steady-state net benefit/yr (cr),Y1 benefit (cr),Y1 cost (cr),Y1 ROI %,Y2 net after run cost (cr),3-yr benefit (cr),3-yr cost (cr),3-yr ROI %,Loss+handling avoided as % revenue
+Conservative,88.5,59.0,22.125,14.75,3.3188,2.2125,1.1616,8.26,2.891,7.2607,3.6303,12.0,-0.6975,4.2607,18.1517,18.0,0.0084,0.0009
+Base,88.5,59.0,31.86,21.24,7.965,5.31,1.9912,19.824,6.9384,18.2221,9.1111,10.0,-0.0889,15.7221,45.5554,15.0,2.037,0.0022
+Optimistic,88.5,59.0,40.2675,26.845,14.0936,9.3957,2.8187,34.692,12.1422,32.8128,16.4064,8.0,1.0508,30.8128,82.0321,12.0,5.836,0.004
