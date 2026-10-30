@@ -1,0 +1,53 @@
+@import "tailwindcss";
+
+/* After Hours design tokens. Night ink + sunrise accent; free time is the only gradient in the product. */
+@theme {
+  --color-ink: #141a33;
+  --color-ink-2: #262e52;
+  --color-canvas: #f5f6f8;
+  --color-surface: #ffffff;
+  --color-line: #e6e8ee;
+  --color-muted: #646b84;
+  --color-subtle: #9aa0b4;
+  --color-sunrise: #f2643a;
+  --color-sunrise-deep: #d9502a;
+  --color-sunrise-soft: #fff0ea;
+  --color-dawn: #ffb35c;
+  --color-ok: #12804c;
+  --color-ok-soft: #e2f5eb;
+  --color-warn: #a35f00;
+  --color-warn-soft: #fff3d9;
+  --color-danger: #c23a3a;
+  --color-danger-soft: #fdeceb;
+  --color-iris: #4a55d4;
+  --color-iris-soft: #eceefe;
+
+  --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+
+  --shadow-card: 0 1px 2px rgb(20 26 51 / 0.04), 0 4px 16px rgb(20 26 51 / 0.05);
+  --shadow-lift: 0 2px 4px rgb(20 26 51 / 0.05), 0 12px 32px rgb(20 26 51 / 0.1);
+}
+
+html, body { height: 100%; }
+body {
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 { text-wrap: balance; }
+
+.free-band { background: linear-gradient(90deg, #ff7a4d 0%, #ffb35c 100%); }
+.free-band-soft { background: linear-gradient(90deg, rgb(255 122 77 / .16), rgb(255 179 92 / .2)); }
+
+.scrollbar-none::-webkit-scrollbar { display: none; }
+.scrollbar-none { scrollbar-width: none; }
+
+:focus-visible { outline: 2px solid var(--color-sunrise); outline-offset: 2px; border-radius: 6px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
