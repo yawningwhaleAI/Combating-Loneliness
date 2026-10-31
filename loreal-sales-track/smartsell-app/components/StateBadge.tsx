@@ -25,3 +25,11 @@ export function ConfidenceBadge({ band }: { band: 'High' | 'Medium' | 'Low' }) {
   const cls = band === 'High' ? 'text-emerald-700 bg-emerald-50' : band === 'Medium' ? 'text-amber-800 bg-amber-50' : 'text-red-700 bg-red-50';
   return <span className={clsx('rounded-full px-2 py-0.5 text-xs font-medium', cls)}>Data: {band}</span>;
 }
+
+export function ShiftBadge({ size = 'md' }: { size?: 'sm' | 'md' }) {
+  return (
+    <span className={clsx('inline-flex items-center gap-1 rounded-full bg-violet-50 font-medium text-violet-700 ring-1 ring-inset ring-violet-200', size === 'sm' ? 'px-1.5 py-0.5 text-[11px]' : 'px-2 py-0.5 text-xs')}>
+      ⇄ Shifting to quick commerce
+    </span>
+  );
+}

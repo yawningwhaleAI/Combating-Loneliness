@@ -1,4 +1,4 @@
-import { APPROVAL_THRESHOLD_RS, NODE_PARAMS, TRANSIT_DAYS, UPLIFT } from './params';
+import { APPROVAL_THRESHOLD_RS, CHANNEL_SHIFT, NODE_PARAMS, TRANSIT_DAYS, UPLIFT } from './params';
 import { daysBetween, fmtDate } from './dates';
 import { evaluate, floorToCase, type Eval } from './engine';
 import { inr, num } from './format';
@@ -189,7 +189,7 @@ export function recommend(p: Position, ctx: Ctx): Recommendation[] {
       rationale: 'Use only after cheaper steps. From the approved scheme catalogue, never undercutting online price parity.',
       effect: `Est. ${inr(g.rs, false)} less at risk (assumed +${Math.round((u.factor - 1) * 100)}% for ${u.days} days)`,
       expectedUnits: g.units, expectedRs: g.rs, costRs: Math.round(value * 0.15), needsApproval: true, owner: 'asm', uplift: u,
-      guardrail: 'Discount is step 6 of 8: brand-dilution and channel-conflict risk.',
+      guardrail: 'Discount is step 6 of 8. Never run it to undercut quick-commerce prices or to dump short-dated stock online: brand-dilution and channel-conflict risk.',
       locked: lowConf ? 'Verify the count first (data confidence is Low)' : undefined,
     });
   };
@@ -202,6 +202,7 @@ export function recommend(p: Position, ctx: Ctx): Recommendation[] {
         ? 'Too late to sell through normally. Route through company-controlled outlets, staff sale or donation, never grey market.'
         : 'Too late to sell through normally. Staff sale, approved off-price partner, or donation, before expiry and never to unauthorised resellers.',
       effect: `Recovers ~50% of ${inr(e.valueAtRisk, false)} and avoids destruction`,
+      guardrail: 'Not via quick commerce or online marketplaces: platforms apply shelf-life acceptance norms and distributors have flagged near-expiry dumping as unfair.',
       expectedUnits: e.unsold, expectedRs: e.valueAtRisk * 0.5, costRs: Math.round(e.valueAtRisk * 0.5), needsApproval: true, owner: 'asm',
     });
 
@@ -291,6 +292,22 @@ export function recommend(p: Position, ctx: Ctx): Recommendation[] {
     }
     default:
       break;
+  }
+
+  // Quick commerce: when demand is moving online, the rep's job is to stop loading general trade and tell the KAM
+  if (e.shift.active && p.nodeType === 'retailer') {
+    const ask = p.requestedQty ?? p.habitQty;
+    const avoided = Math.max(0, ask - e.suggestedOrder) * e.unitValue;
+    const cover = Math.round(NODE_PARAMS.retailer.targetCover * CHANNEL_SHIFT.coverFactor);
+    const handoff = base(p, 'CHANNEL_HANDOFF', {
+      level: 'L2', title: 'Hand off to the quick-commerce key-account team',
+      rationale: `${e.shift.reason} Shift allocation online instead of pushing more stock into this shop.`,
+      effect: `Order guardrail uses a ${cover}-day cover norm here${avoided > 0 ? `; avoids ${inr(avoided, false)} of general-trade loading` : ''}. Demand planning gets the signal.`,
+      expectedRs: avoided, instant: true, owner: 'kam',
+    });
+    const at = recs[0]?.code === 'VERIFY' ? 1 : 0;
+    if (e.state === 'OVERSTOCK' || e.state === 'DORMANT' || e.state === 'HEALTHY') recs.splice(at, 0, handoff);
+    else recs.splice(Math.min(recs.length, at + 2), 0, handoff);
   }
   return recs;
 }

@@ -46,6 +46,7 @@ export interface Position {
   signals: SignalCode[];
   requestedQty?: number;  // what the retailer/distributor is asking for at the next order
   habitQty: number;       // what they typically re-order ("same as last time")
+  history?: number[];     // last 3 months of sell-out, oldest first (used to detect channel shift)
   upliftFactor?: number;
   upliftUntil?: string;
   paused?: boolean;       // replenishment paused by an accepted guardrail
@@ -54,10 +55,10 @@ export interface Position {
 export type ActionCode =
   | 'VERIFY' | 'ROTATE' | 'VISIBILITY' | 'STOP_REPLENISH' | 'TRANSFER_OUT' | 'TRANSFER_IN'
   | 'SAMPLING' | 'BUNDLE' | 'PROMO' | 'END_OF_LIFE' | 'RETURN' | 'REPLENISH' | 'DIAGNOSE'
-  | 'RANGE_REVIEW' | 'STOP_PRIMARY' | 'DIST_TRANSFER';
+  | 'RANGE_REVIEW' | 'STOP_PRIMARY' | 'DIST_TRANSFER' | 'CHANNEL_HANDOFF';
 
 export type Level = 'L0' | 'L1' | 'L2' | 'L3' | 'L4' | 'L5' | 'L6' | 'L7' | 'L8';
-export type Owner = 'rep' | 'distributor' | 'asm' | 'brand';
+export type Owner = 'rep' | 'distributor' | 'asm' | 'brand' | 'kam';
 
 export interface Transfer { fromId: string; toId: string; qty: number }
 

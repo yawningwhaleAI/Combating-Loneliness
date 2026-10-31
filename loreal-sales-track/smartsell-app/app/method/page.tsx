@@ -105,7 +105,18 @@ export default function Method() {
       </Card>
 
       <Card className="p-5 text-sm">
-        <h2 className="font-semibold">4. Assumptions and limitations</h2>
+        <h2 className="font-semibold">4. Quick commerce: channel shift</h2>
+        <ul className="mt-2 list-disc space-y-1 pl-5 text-ink-soft">
+          <li><b>Detect:</b> a SKU is <i>shifting online</i> at an outlet when its sell-out fell 20%+ over three months while the brand&apos;s online (mostly quick-commerce) sales in the city grew 20%+, or when the rep ticks &quot;Shoppers say they buy it on quick commerce&quot;.</li>
+          <li><b>Resize:</b> the order guardrail then uses a tighter cover norm (21 instead of 30 days), so general trade stops being stocked at old volumes. This is the root cause of the distributor overstock seen publicly in 2024.</li>
+          <li><b>Hand off:</b> the rep sends a channel-shift flag to the quick-commerce key-account team and demand planning: move allocation online, don&apos;t push it into the shop.</li>
+          <li><b>Route:</b> fresh stock follows demand online. Ageing stock is rebalanced within general trade, never dumped on quick commerce at a discount (platforms apply shelf-life acceptance norms, and distributors have publicly objected to near-expiry dumping).</li>
+          <li>City online growth figures in this prototype are synthetic. In a pilot they come from L&apos;Oréal&apos;s quick-commerce account data.</li>
+        </ul>
+      </Card>
+
+      <Card className="p-5 text-sm">
+        <h2 className="font-semibold">5. Assumptions and limitations</h2>
         <ul className="mt-2 list-disc space-y-1 pl-5 text-ink-soft">
           <li>Velocity assumed constant over the window; seasonality and launches break this (trend factor and ML forecasts are later phases).</li>
           <li>Stock-flow sell-out is noisy (shrinkage, unrecorded inflows), so anomalies are flagged and confidence is weighted.</li>

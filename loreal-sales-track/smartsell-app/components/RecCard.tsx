@@ -47,7 +47,7 @@ export function RecCard({ rec, action, rank }: { rec: Recommendation; action?: A
         <Pill className="bg-brand-soft text-brand">{rec.level} · {LEVEL_LABEL[rec.level]}</Pill>
         {rec.needsApproval && <Pill className="bg-amber-50 text-amber-800">Needs ASM approval</Pill>}
         {rec.instant && !rec.needsApproval && <Pill className="bg-emerald-50 text-emerald-700">Do it now</Pill>}
-        <Pill>Owner: {rec.owner === 'asm' ? 'ASM' : rec.owner}</Pill>
+        <Pill>Owner: {rec.owner === 'asm' ? 'ASM' : rec.owner === 'kam' ? 'Quick-commerce KAM' : rec.owner}</Pill>
       </div>
       <p className="mt-2 font-semibold leading-snug">{rec.title}</p>
       <p className="mt-0.5 text-sm text-ink-soft">{rec.rationale}</p>

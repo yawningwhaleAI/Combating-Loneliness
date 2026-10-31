@@ -134,6 +134,7 @@ interface Override {
   source?: Source;
   countedDaysAgo?: number;
   requested?: number;
+  history?: number[];
 }
 
 /** Hand-built scenarios (S1–S7 from the spec plus supporting flags). Numbers verified with model/risk_engine_reference.py. */
@@ -169,6 +170,11 @@ const OVERRIDES: Record<string, Override> = {
   [posId('o-ghatkopar', 'lumea-burgundy')]: { batches: [[95, 28]], monthly: 7, countedDaysAgo: 10 },
   // S7 Luxe guardrail
   [posId('o-galleria', 'eclat-edp')]: { batches: [[270, 8]], monthly: 0.6, countedDaysAgo: 7 },
+  // Quick commerce / channel shift: outlet sell-out falling while the brand grows online in Mumbai
+  [posId('o-shree', 'chroma-mascara')]: { batches: [[600, 10]], monthly: 5, history: [9, 7, 5], countedDaysAgo: 12, requested: 12 },
+  [posId('o-linking', 'lumea-serum')]: { batches: [[500, 24]], monthly: 7, history: [12, 9, 7], countedDaysAgo: 5, requested: 12 },
+  [posId('o-hiranandani', 'verde-micellar')]: { batches: [[600, 18]], monthly: 8, history: [14, 11, 8], countedDaysAgo: 6, requested: 12 },
+  [posId('o-borivali', 'verde-daycream')]: { batches: [[700, 20]], monthly: 9, history: [15, 12, 9], countedDaysAgo: 8, requested: 24 },
   // Supporting: dormant SKU in a kirana
   [posId('o-vikhroli', 'verde-micellar')]: { batches: [[500, 10]], monthly: 0, signals: ['NO_MOVEMENT'], countedDaysAgo: 15 },
   // S4 distributor hidden near-expiry (totals look like "just overstock") and the D2 distributor that needs it
@@ -199,7 +205,7 @@ function makePosition(nodeId: string, nodeType: Position['nodeType'], s: Sku, o:
     id: posId(nodeId, s.id), nodeId, nodeType, skuId: s.id, batches, monthlySales: o.monthly,
     source: o.source ?? (nodeType === 'distributor' ? 'dms' : 'manual_count'),
     countedAt: addDays(D0, -(o.countedDaysAgo ?? 10)), signals: o.signals ?? [],
-    requestedQty: o.requested, habitQty: habit,
+    requestedQty: o.requested, habitQty: habit, history: o.history,
   };
 }
 

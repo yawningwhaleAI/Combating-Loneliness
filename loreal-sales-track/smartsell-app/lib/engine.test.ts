@@ -80,6 +80,15 @@ describe('seeded demo scenarios', () => {
     expect(st('o-vikhroli', 'verde-micellar').state).toBe('DORMANT');
     expect(st('o-linking', 'chroma-kajal').state).toBe('STOCKOUT_RISK');
   });
+  it('channel shift: outlet decline + online growth tightens the guardrail and adds a KAM handoff', () => {
+    const e = st('o-shree', 'chroma-mascara');
+    expect(e.shift.active).toBe(true);
+    expect(e.shift.source).toBe('data');
+    expect(e.suggestedOrder).toBe(0);
+    const recs = recommend(positions[posId('o-shree', 'chroma-mascara')], ctx);
+    expect(recs[0].code).toBe('CHANNEL_HANDOFF');
+    expect(st('o-evershine', 'verde-sunscreen').shift.source).toBe('signal');
+  });
   it('luxe never gets a price promotion', () => {
     const recs = recommend(positions[posId('o-galleria', 'eclat-edp')], ctx);
     expect(recs.some((r) => r.code === 'PROMO' || r.code === 'BUNDLE')).toBe(false);

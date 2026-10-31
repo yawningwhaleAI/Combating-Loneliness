@@ -38,7 +38,7 @@ function takeFefo(p: Position, qty: number) {
   return taken;
 }
 
-const instantCodes = new Set(['VERIFY', 'ROTATE', 'VISIBILITY', 'STOP_REPLENISH', 'STOP_PRIMARY', 'DIAGNOSE', 'RANGE_REVIEW', 'REPLENISH']);
+const instantCodes = new Set(['VERIFY', 'ROTATE', 'VISIBILITY', 'STOP_REPLENISH', 'STOP_PRIMARY', 'DIAGNOSE', 'RANGE_REVIEW', 'REPLENISH', 'CHANNEL_HANDOFF']);
 export const isInstant = (a: Pick<Action, 'code'>) => instantCodes.has(a.code);
 
 /** Side effects of an action on positions. Mutates `positions`. Returns the outcome. */
@@ -103,6 +103,11 @@ export function applyAction(positions: Record<string, Position>, a: Action, date
       out.estimated = true;
       out.note = 'Replenishment paused for this SKU';
       break;
+    case 'CHANNEL_HANDOFF':
+      out.riskAvoided = a.expectedRs;
+      out.estimated = true;
+      out.note = 'Channel-shift flag sent to quick-commerce KAM and demand planning; general-trade orders resized';
+      break;
     default:
       out.note = 'Recorded';
   }
@@ -148,6 +153,8 @@ function tick(world: World, date: string, mode: Mode, orderNow: boolean) {
       demand -= q;
     }
     p.batches = p.batches.filter((b) => b.qty > 1e-6);
+    // Channel shift is real in both worlds: demand at this outlet keeps drifting to quick commerce (~3% a week, assumed)
+    if (p.history && p.history.length >= 2 && p.history[p.history.length - 1] < p.history[0] * 0.8) p.monthlySales = Math.round(p.monthlySales * 0.97 * 10) / 10;
     if (p.nodeType === 'retailer') {
       world.counters.soldValue += (want - demand) * sku.ptr;
       if (demand > 1e-6) {

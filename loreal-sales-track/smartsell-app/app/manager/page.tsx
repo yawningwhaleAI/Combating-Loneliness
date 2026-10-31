@@ -3,13 +3,14 @@
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import { Bar, BarChart, CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
-import { AlertOctagon, Megaphone } from 'lucide-react';
+import { AlertOctagon, Megaphone, Smartphone } from 'lucide-react';
 import { useEvals, useStore } from '@/store/useStore';
 import { actionStats, computeKpis, territoryOf } from '@/lib/kpis';
 import { inr, num, pct } from '@/lib/format';
 import { nodeName } from '@/lib/recommend';
 import { Button, Card, LinkButton, Pill, SectionTitle, Stat } from '@/components/ui';
 import { STATE_META, StateBadge } from '@/components/StateBadge';
+import { useRecommender } from '@/components/useRecs';
 import { SKU_BY_ID, TERRITORIES, REP_BY_ID } from '@/data/seed';
 import type { RiskState, Tier } from '@/lib/types';
 
@@ -18,6 +19,8 @@ export default function ManagerHome() {
   const actions = useStore((s) => s.actions);
   const history = useStore((s) => s.history);
   const notifyBrand = useStore((s) => s.notifyBrand);
+  const acceptRec = useStore((s) => s.acceptRec);
+  const recommender = useRecommender();
   const evals = useEvals();
   const [terr, setTerr] = useState<string>('ALL');
   const [state, setState] = useState<RiskState | 'FLAGGED'>('FLAGGED');
@@ -112,6 +115,48 @@ export default function ManagerHome() {
           </div>
         </Card>
       </div>
+
+      {(() => {
+        const shifting = Object.values(positions).filter((p) => p.nodeType === 'retailer' && evals[p.id].shift.active && inTerr(p));
+        if (!shifting.length) return null;
+        const handoffs = shifting.map((p) => recommender.forPosition(p.id).find((r) => r.code === 'CHANNEL_HANDOFF')).filter(Boolean) as ReturnType<typeof recommender.forPosition>;
+        const pending = handoffs.filter((r) => !recommender.actionFor(r));
+        return (
+          <Card className="border-violet-200 p-5">
+            <SectionTitle
+              title={<span className="flex items-center gap-2"><Smartphone size={18} className="text-violet-600" /> Quick commerce: channel shift</span>}
+              sub="Products whose outlet sell-out is falling while the brand grows online in Mumbai. Stop loading general trade, and move allocation to quick commerce via the key-account team."
+              right={<Button size="sm" disabled={!pending.length} onClick={() => pending.forEach((r) => acceptRec(r))}><Megaphone size={14} /> {pending.length ? `Send ${pending.length} to quick-commerce KAM` : 'All sent to KAM'}</Button>} />
+            <div className="mb-3 grid gap-3 sm:grid-cols-3">
+              <div className="rounded-xl bg-violet-50 p-3"><p className="text-xs text-violet-800">SKU-outlets shifting online</p><p className="text-xl font-semibold text-violet-900">{k.shiftCount}</p></div>
+              <div className="rounded-xl bg-violet-50 p-3"><p className="text-xs text-violet-800">General-trade loading avoided</p><p className="text-xl font-semibold text-violet-900">{inr(k.shiftLoadingAvoided)}</p><p className="text-[11px] text-violet-800">retailer asks vs channel-shift guardrail</p></div>
+              <div className="rounded-xl bg-violet-50 p-3"><p className="text-xs text-violet-800">Handoffs to KAM</p><p className="text-xl font-semibold text-violet-900">{handoffs.length - pending.length} / {handoffs.length}</p></div>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full min-w-[720px] text-sm">
+                <thead className="text-left text-xs uppercase tracking-wide text-ink-mute"><tr><th className="py-1.5">Outlet</th><th>SKU</th><th className="text-right">Outlet trend (3 mo)</th><th className="text-right">Brand online growth</th><th className="text-right">Ask → guardrail</th><th>Status</th></tr></thead>
+                <tbody>
+                  {shifting.map((p) => {
+                    const e = evals[p.id];
+                    const r = recommender.forPosition(p.id).find((x) => x.code === 'CHANNEL_HANDOFF');
+                    const a = r && recommender.actionFor(r);
+                    return (
+                      <tr key={p.id} className="border-t border-slate-100">
+                        <td className="py-1.5"><Link className="hover:text-brand" href={`/rep/outlet/${p.nodeId}/sku/${p.skuId}`}>{nodeName(p.nodeId)}</Link></td>
+                        <td>{SKU_BY_ID[p.skuId].brand} {SKU_BY_ID[p.skuId].name}</td>
+                        <td className="text-right tabular-nums">{e.shift.outletTrend !== null ? `${Math.round((e.shift.outletTrend - 1) * 100)}%` : 'rep signal'}</td>
+                        <td className="text-right tabular-nums text-violet-700">+{Math.round(e.shift.cityGrowth * 100)}%</td>
+                        <td className="text-right tabular-nums">{p.requestedQty ?? p.habitQty} → <b>{e.suggestedOrder}</b></td>
+                        <td className="text-xs">{a ? <span className="text-emerald-700">sent to KAM</span> : <span className="text-ink-mute">not yet</span>}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </Card>
+        );
+      })()}
 
       {repeat.length > 0 && (
         <Card className="p-5">

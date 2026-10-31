@@ -20,7 +20,7 @@ const REASONS = [
 
 const MODULES = [
   { icon: PackageSearch, name: 'Stock Intelligence', text: 'Pre-visit brief from distributor data, Smart Count, batch and expiry capture, simulated barcode scan, 12 field signals, stock-flow sell-out.' },
-  { icon: Zap, name: 'Risk Engine', text: 'Transparent rules: days of cover, FEFO projected waste, days left to act, stock-out risk, data confidence. Rupees, not a black box.' },
+  { icon: Zap, name: 'Risk Engine', text: 'Transparent rules: days of cover, FEFO projected waste, days left to act, stock-out risk, quick-commerce channel shift, data confidence. Rupees, not a black box.' },
   { icon: ShieldCheck, name: 'Action Engine', text: 'An 8-step intervention ladder with brand guardrails, transfer matching across outlets, an order guardrail, approvals and execution tracking.' },
   { icon: BarChart3, name: 'Manager Intelligence', text: 'Territory risk, approvals queue, repeat-offender SKUs, rep scorecards, and outcomes against business-as-usual.' },
 ];

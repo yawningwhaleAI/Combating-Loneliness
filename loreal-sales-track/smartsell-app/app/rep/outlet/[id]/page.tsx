@@ -12,7 +12,7 @@ import { projectWithActions } from '@/lib/simulate';
 import { daysBetween, fmtDate } from '@/lib/dates';
 import { inr, num } from '@/lib/format';
 import { Button, Card, Empty, Pill, Tabs } from '@/components/ui';
-import { ConfidenceBadge, StateBadge } from '@/components/StateBadge';
+import { ConfidenceBadge, ShiftBadge, StateBadge } from '@/components/StateBadge';
 import { CountRow } from '@/components/CountRow';
 import { RecCard, StatusPill } from '@/components/RecCard';
 import { OrderTab } from '@/components/OrderTab';
@@ -41,7 +41,7 @@ function OutletInner() {
   const positions = useMemo(() => (outlet ? sortByPriority(positionsOf(positionsMap, outlet.id), evals) : []), [outlet, positionsMap, evals]);
   if (!outlet) return <Empty title="Outlet not found"><Link href="/rep" className="text-brand underline">Back to today&apos;s beat</Link></Empty>;
 
-  const flagged = positions.filter((p) => evals[p.id].state !== 'HEALTHY');
+  const flagged = positions.filter((p) => evals[p.id].state !== 'HEALTHY' || evals[p.id].shift.active);
   const visit = [...visits].reverse().find((v) => v.outletId === outlet.id && v.status === 'in_progress') ?? [...visits].reverse().find((v) => v.outletId === outlet.id);
   const inVisit = visit?.status === 'in_progress';
   const summary = outletSummary(outlet.id, positionsMap, evals, visits, actions);
@@ -110,7 +110,7 @@ function OutletInner() {
                 <Card className="mb-3 p-4 transition hover:border-brand/40">
                   <div className="flex items-start justify-between gap-3">
                     <div className="min-w-0">
-                      <div className="flex flex-wrap items-center gap-2"><span className="text-xs font-semibold text-ink-mute">#{i + 1}</span><span className="font-semibold">{sku.brand} {sku.name}</span><StateBadge state={e.state} size="sm" /><ConfidenceBadge band={e.confBand} /></div>
+                      <div className="flex flex-wrap items-center gap-2"><span className="text-xs font-semibold text-ink-mute">#{i + 1}</span><span className="font-semibold">{sku.brand} {sku.name}</span><StateBadge state={e.state} size="sm" />{e.shift.active && <ShiftBadge size="sm" />}<ConfidenceBadge band={e.confBand} /></div>
                       <p className="mt-1 text-sm text-ink-soft">{e.headline}</p>
                       {e.chips.length > 0 && <div className="mt-2 flex flex-wrap gap-1">{e.chips.map((c) => <Pill key={c}>{c}</Pill>)}</div>}
                     </div>
@@ -153,7 +153,7 @@ function OutletInner() {
           {flagged.map((p, i) => <CountRow key={p.id} p={p} defaultOpen={i === 0} counted={!!visit?.countedPositionIds.includes(p.id)} />)}
           <details className="rounded-2xl border border-slate-200 bg-white p-4">
             <summary className="cursor-pointer text-sm font-medium text-brand">Count an unflagged SKU ({positions.length - flagged.length} healthy)</summary>
-            <div className="mt-3 space-y-3">{positions.filter((p) => evals[p.id].state === 'HEALTHY').map((p) => <CountRow key={p.id} p={p} counted={!!visit?.countedPositionIds.includes(p.id)} />)}</div>
+            <div className="mt-3 space-y-3">{positions.filter((p) => evals[p.id].state === 'HEALTHY' && !evals[p.id].shift.active).map((p) => <CountRow key={p.id} p={p} counted={!!visit?.countedPositionIds.includes(p.id)} />)}</div>
           </details>
           <div className="flex justify-end"><Button onClick={() => setTab('actions')}>See recommended actions <ArrowRight size={15} /></Button></div>
         </div>
@@ -173,7 +173,7 @@ function OutletInner() {
             return (
               <Card key={p.id} className="p-4">
                 <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
-                  <div className="flex flex-wrap items-center gap-2"><span className="font-semibold">{sku.brand} {sku.name}</span><StateBadge state={e.state} size="sm" /><Pill>{sku.tier}</Pill></div>
+                  <div className="flex flex-wrap items-center gap-2"><span className="font-semibold">{sku.brand} {sku.name}</span><StateBadge state={e.state} size="sm" />{e.shift.active && <ShiftBadge size="sm" />}<Pill>{sku.tier}</Pill></div>
                   <Link href={`/rep/outlet/${outlet.id}/sku/${p.skuId}`} className="text-xs font-medium text-brand hover:underline">Why flagged →</Link>
                 </div>
                 <p className="mb-3 text-sm text-ink-soft">{e.headline}</p>

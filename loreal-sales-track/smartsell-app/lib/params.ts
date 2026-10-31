@@ -18,6 +18,20 @@ export const SOURCE_LABEL: Record<Source, string> = {
 };
 
 export const TRANSIT_DAYS = 3;
+
+/**
+ * Quick commerce / channel shift (ASSUMPTIONS). A SKU is "shifting online" at an outlet when its sell-out there
+ * fell by 20%+ over three months while the brand's online (mostly quick-commerce) sales in the city grew 20%+.
+ * Where that happens the order guardrail uses a tighter cover norm, so general trade is not stocked at old volumes.
+ */
+export const CHANNEL_SHIFT = { outletDecline: 0.8, cityGrowth: 0.2, coverFactor: 0.7, signalVelocityAdj: 0.85 } as const;
+
+/** Synthetic: quarter-on-quarter growth of each SKU's online + quick-commerce sales in Mumbai. */
+export const QCOMM_CITY_GROWTH: Record<string, number> = {
+  'verde-micellar': 0.41, 'chroma-mascara': 0.35, 'lumea-serum': 0.32, 'verde-sunscreen': 0.3, 'verde-daycream': 0.28,
+  'verde-vitc': 0.26, 'derma-cleanser': 0.24, 'derma-cream': 0.22, 'chroma-f128': 0.18, 'verde-facewash': 0.16,
+};
+export const QCOMM_DEFAULT_GROWTH = 0.1;
 export const APPROVAL_THRESHOLD_RS = 10000;
 export const SIGNAL_VELOCITY_ADJ = 0.7;
 export const PACKAGING_KG_PER_UNIT = 0.04;

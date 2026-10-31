@@ -10,7 +10,7 @@ import { SIGNALS, SOURCE_LABEL } from '@/lib/params';
 import { addDays, daysBetween, fmtDate } from '@/lib/dates';
 import { inr, num } from '@/lib/format';
 import { Button, Stepper } from './ui';
-import { ConfidenceBadge, StateBadge } from './StateBadge';
+import { ConfidenceBadge, ShiftBadge, StateBadge } from './StateBadge';
 import { ScanSheet } from './ScanSheet';
 import { SKUS, SKU_BY_ID } from '@/data/seed';
 import type { Batch, Position, SignalCode, Source } from '@/lib/types';
@@ -68,6 +68,7 @@ export function CountRow({ p, defaultOpen, counted }: { p: Position; defaultOpen
           <div className="flex flex-wrap items-center gap-2">
             <span className="font-semibold">{sku.brand} {sku.name}</span>
             <StateBadge state={live.state} size="sm" />
+            {live.shift.active && <ShiftBadge size="sm" />}
             {counted && <span className="text-[11px] font-medium text-emerald-700">✓ counted</span>}
           </div>
           <p className="mt-0.5 text-xs text-ink-mute">Expected {expected} · {num(live.monthly, 1)}/mo · {Number.isFinite(live.doc) ? `${num(live.doc)} days cover` : 'no sales'} · {live.valueAtRisk > 0 ? <b className="text-red-700">{inr(live.valueAtRisk)} at risk</b> : live.state === 'STOCKOUT_RISK' ? <b className="text-blue-700">stock-out in {num(live.doc)} days</b> : 'no expiry risk'}</p>

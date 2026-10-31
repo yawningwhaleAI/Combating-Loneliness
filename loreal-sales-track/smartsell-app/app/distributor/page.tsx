@@ -116,7 +116,7 @@ export default function DistributorView() {
                 return (
                   <tr key={p.id} className="border-t border-slate-100">
                     <td className="px-3 py-2">{SKU_BY_ID[p.skuId].brand} {SKU_BY_ID[p.skuId].name}</td>
-                    <td className="px-3 py-2"><StateBadge state={e.state} size="sm" /></td>
+                    <td className="px-3 py-2"><StateBadge state={e.state} size="sm" />{(() => { const n = Object.values(positions).filter((q) => q.nodeType === 'retailer' && q.skuId === p.skuId && distributorOf(q) === distributorId && evals[q.id].shift.active).length; return n ? <Pill className="ml-1 bg-violet-50 text-violet-700">{n} outlet{n > 1 ? 's' : ''} shifting to q-comm</Pill> : null; })()}</td>
                     <td className="px-3 py-2 text-right tabular-nums">{num(e.qty)}</td>
                     <td className="px-3 py-2 text-right tabular-nums">{Number.isFinite(e.doc) ? `${num(e.doc)} d` : '∞'}</td>
                     <td className="px-3 py-2 text-right tabular-nums">{oldest ? `${oldest.daysToExpiry} d` : '—'}</td>

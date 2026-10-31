@@ -11,8 +11,8 @@ export function sortByPriority(ps: Position[], evals: Record<string, Eval>) {
   return [...ps].sort((a, b) => {
     const ea = evals[a.id];
     const eb = evals[b.id];
-    const fa = ea.state === 'HEALTHY' ? 1 : 0;
-    const fb = eb.state === 'HEALTHY' ? 1 : 0;
+    const fa = ea.state === 'HEALTHY' && !ea.shift.active ? 1 : 0;
+    const fb = eb.state === 'HEALTHY' && !eb.shift.active ? 1 : 0;
     return fa - fb || eb.priority - ea.priority || STATE_ORDER.indexOf(ea.state) - STATE_ORDER.indexOf(eb.state);
   });
 }
@@ -28,11 +28,12 @@ export interface OutletSummary {
   flagged: number;
   visit?: Visit;
   openActions: number;
+  shift: number;
 }
 
 export function outletSummary(outletId: string, positions: Record<string, Position>, evals: Record<string, Eval>, visits: Visit[], actions: Action[]): OutletSummary {
   const counts: Record<RiskState, number> = { NEAR_EXPIRY: 0, AGEING_RISK: 0, STOCKOUT_RISK: 0, DORMANT: 0, OVERSTOCK: 0, HEALTHY: 0 };
-  let atRisk = 0, lostRisk = 0, priority = 0, flagged = 0;
+  let atRisk = 0, lostRisk = 0, priority = 0, flagged = 0, shift = 0;
   for (const p of positionsOf(positions, outletId)) {
     const e = evals[p.id];
     counts[e.state] += 1;
@@ -40,11 +41,12 @@ export function outletSummary(outletId: string, positions: Record<string, Positi
     if (e.state === 'STOCKOUT_RISK') lostRisk += e.lostUnits * e.unitValue;
     priority += e.priority;
     if (e.state !== 'HEALTHY') flagged += 1;
+    if (e.shift.active) shift += 1;
   }
   const topState = STATE_ORDER.find((s) => s !== 'HEALTHY' && counts[s] > 0) ?? 'HEALTHY';
   const visit = [...visits].reverse().find((v) => v.outletId === outletId);
   const openActions = actions.filter((a) => a.positionId.startsWith(`${outletId}::`) && (a.status === 'in_progress' || a.status === 'awaiting_approval')).length;
-  return { outletId, counts, atRisk, lostRisk, rsAtStake: atRisk + lostRisk, priority, topState, flagged, visit, openActions };
+  return { outletId, counts, atRisk, lostRisk, rsAtStake: atRisk + lostRisk, priority, topState, flagged, visit, openActions, shift };
 }
 
 export function outletsOfTerritory(territoryId: string) {

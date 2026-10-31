@@ -14,6 +14,8 @@ export interface Kpis {
   flagged: number;
   byState: Record<RiskState, number>;
   lostSalesRisk: number;
+  shiftCount: number;
+  shiftLoadingAvoided: number; // Rs of general-trade loading the channel-shift guardrail removes vs the retailer's ask
 }
 
 export function territoryOf(p: Position) {
@@ -30,7 +32,7 @@ export function evalAll(positions: Record<string, Position>, simDate: string) {
 export function computeKpis(positions: Record<string, Position>, evals: Record<string, Eval>, filter?: (p: Position) => boolean): Kpis {
   const k: Kpis = {
     atRisk: 0, atRiskRetail: 0, atRiskDist: 0, stockValue: 0, nearExpiryValue: 0, nearExpiryPct: 0, stockouts: 0,
-    overstockValue: 0, flagged: 0, lostSalesRisk: 0,
+    overstockValue: 0, flagged: 0, lostSalesRisk: 0, shiftCount: 0, shiftLoadingAvoided: 0,
     byState: { NEAR_EXPIRY: 0, AGEING_RISK: 0, STOCKOUT_RISK: 0, DORMANT: 0, OVERSTOCK: 0, HEALTHY: 0 },
   };
   for (const p of Object.values(positions)) {
@@ -45,6 +47,10 @@ export function computeKpis(positions: Record<string, Position>, evals: Record<s
     if (e.state === 'NEAR_EXPIRY') k.nearExpiryValue += e.qty * e.unitValue;
     if (e.state === 'STOCKOUT_RISK') { k.stockouts += 1; k.lostSalesRisk += e.lostUnits * e.unitValue; }
     if (e.state === 'OVERSTOCK' || e.state === 'DORMANT') k.overstockValue += e.excessValue;
+    if (e.shift.active && p.nodeType === 'retailer') {
+      k.shiftCount += 1;
+      k.shiftLoadingAvoided += Math.max(0, (p.requestedQty ?? p.habitQty) - e.suggestedOrder) * e.unitValue;
+    }
   }
   k.nearExpiryPct = k.stockValue > 0 ? k.nearExpiryValue / k.stockValue : 0;
   return k;

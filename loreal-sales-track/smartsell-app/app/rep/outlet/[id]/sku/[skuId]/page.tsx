@@ -10,7 +10,7 @@ import { inr, num } from '@/lib/format';
 import { peerBenchmark } from '@/lib/views';
 import { posId, OUTLET_BY_ID, SKU_BY_ID, DISTRIBUTOR_BY_ID } from '@/data/seed';
 import { Card, Empty, Pill } from '@/components/ui';
-import { ConfidenceBadge, StateBadge } from '@/components/StateBadge';
+import { ConfidenceBadge, ShiftBadge, StateBadge } from '@/components/StateBadge';
 import { BatchTimeline } from '@/components/BatchTimeline';
 import { WhatIfLab } from '@/components/WhatIfLab';
 import { RecCard, StatusPill } from '@/components/RecCard';
@@ -47,7 +47,7 @@ export default function SkuDetail() {
             <h1 className="text-xl font-bold">{sku.brand} {sku.name}</h1>
             <p className="text-sm text-ink-mute">at {nodeName} · EAN {sku.ean} · case pack {sku.casePack} · {inr(e.unitValue, false)}/unit</p>
           </div>
-          <div className="flex flex-wrap items-center gap-2"><StateBadge state={e.state} /><ConfidenceBadge band={e.confBand} /></div>
+          <div className="flex flex-wrap items-center gap-2"><StateBadge state={e.state} />{e.shift.active && <ShiftBadge />}<ConfidenceBadge band={e.confBand} /></div>
         </div>
         <div className="mt-4 rounded-xl bg-slate-50 p-4">
           <p className="text-xs font-semibold uppercase tracking-wide text-brand">Why it&apos;s flagged</p>

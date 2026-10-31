@@ -1,4 +1,4 @@
-import { NODE_PARAMS, SIGNAL_VELOCITY_ADJ, SOURCE_WEIGHT } from './params';
+import { CHANNEL_SHIFT, NODE_PARAMS, QCOMM_CITY_GROWTH, QCOMM_DEFAULT_GROWTH, SIGNAL_VELOCITY_ADJ, SOURCE_WEIGHT } from './params';
 import { addDays, daysBetween, fmtDate } from './dates';
 import { num, inr } from './format';
 import type { Position, RiskState, Sku } from './types';
@@ -39,6 +39,29 @@ export interface Eval {
   priority: number;
   headline: string;
   chips: string[];
+  shift: ChannelShift;
+}
+
+export interface ChannelShift {
+  active: boolean;
+  source: 'data' | 'signal' | null;
+  outletTrend: number | null;   // last month ÷ first month of the 3-month history
+  cityGrowth: number;           // brand's online growth in the city (synthetic)
+  reason: string;
+}
+
+/** Detects demand moving from this outlet to quick commerce / online: outlet sell-out falling while city online sales grow. */
+export function channelShiftOf(p: Position): ChannelShift {
+  const cityGrowth = QCOMM_CITY_GROWTH[p.skuId] ?? QCOMM_DEFAULT_GROWTH;
+  const h = p.history;
+  const outletTrend = h && h.length >= 2 && h[0] > 0 ? h[h.length - 1] / h[0] : null;
+  if (p.nodeType === 'retailer' && outletTrend !== null && outletTrend <= CHANNEL_SHIFT.outletDecline && cityGrowth >= CHANNEL_SHIFT.cityGrowth) {
+    return { active: true, source: 'data', outletTrend, cityGrowth, reason: `Sell-out here fell ${Math.round((1 - outletTrend) * 100)}% in 3 months while the brand's online sales in Mumbai grew ${Math.round(cityGrowth * 100)}%: demand is moving to quick commerce, not dying.` };
+  }
+  if (p.signals.includes('QCOMM_SHIFT')) {
+    return { active: true, source: 'signal', outletTrend, cityGrowth, reason: `Rep reports shoppers now buy this on quick commerce (brand online sales in Mumbai +${Math.round(cityGrowth * 100)}%).` };
+  }
+  return { active: false, source: null, outletTrend, cityGrowth, reason: '' };
 }
 
 export const STATE_ORDER: RiskState[] = ['NEAR_EXPIRY', 'AGEING_RISK', 'STOCKOUT_RISK', 'DORMANT', 'OVERSTOCK', 'HEALTHY'];
@@ -55,7 +78,8 @@ export function unitValueOf(p: Position, sku: Sku) {
 export function effectiveMonthly(p: Position, simDate: string) {
   let m = p.monthlySales;
   if (p.signals.includes('DUST') || p.signals.includes('NO_MOVEMENT')) m *= SIGNAL_VELOCITY_ADJ;
-  if (p.signals.includes('QCOMM_SHIFT')) m *= 0.85; // assumed: some outlet demand has moved online
+  // Rep-reported shift without sales history to back it: assume some outlet demand has moved online
+  if (p.signals.includes('QCOMM_SHIFT') && !(p.history && p.history.length >= 2)) m *= CHANNEL_SHIFT.signalVelocityAdj;
   if (p.upliftFactor && p.upliftUntil && p.upliftUntil >= simDate) m *= p.upliftFactor;
   return m;
 }
@@ -126,7 +150,10 @@ export function evaluate(p: Position, sku: Sku, simDate: string): Eval {
   // Stock already inside its buffer can't sell; only still-sellable excess should block a re-order.
   const blocking = batches.some((b) => b.unsold > 0.5 && b.window > 0);
   const sellableQty = batches.filter((b) => b.window > 0).reduce((s, b) => s + b.qty, 0);
-  const rawOrder = Math.ceil(v * (cfg.targetCover + cfg.lead) - sellableQty);
+  const shift = channelShiftOf(p);
+  // Where demand is moving online, general trade is stocked to a tighter cover norm
+  const orderCover = shift.active ? Math.round(cfg.targetCover * CHANNEL_SHIFT.coverFactor) : cfg.targetCover;
+  const rawOrder = Math.ceil(v * (orderCover + cfg.lead) - sellableQty);
   const suggestedOrder = blocking ? 0 : roundToCase(rawOrder, sku.casePack);
   const confidence = confidenceOf(p, simDate);
   const excessUnits = Math.max(0, qty - v * cfg.targetCover);
@@ -165,15 +192,21 @@ export function evaluate(p: Position, sku: Sku, simDate: string): Eval {
   if (p.signals.includes('NO_TESTER')) chips.push('No tester');
   if (p.signals.includes('NOT_ASKED')) chips.push('Assortment mismatch?');
   if (p.signals.includes('RETURN_REQUEST')) chips.push('Return requested');
-  if (p.signals.includes('QCOMM_SHIFT')) chips.push('Demand moving to quick commerce');
+  if (shift.active) chips.push(shift.source === 'data' ? `Channel shift: −${Math.round((1 - (shift.outletTrend ?? 1)) * 100)}% here, +${Math.round(shift.cityGrowth * 100)}% online` : 'Demand moving to quick commerce');
   if (p.paused) chips.push('Replenishment paused');
   if (p.upliftFactor && p.upliftUntil && p.upliftUntil >= simDate) chips.push(`Intervention active ×${p.upliftFactor}`);
 
-  const headline = buildHeadline(state, { qty, monthly, doc, unsold, valueAtRisk, window, batches, rop, lostUnits, excessValue, target: cfg.targetCover, msb: cfg.msb });
+  let headline = buildHeadline(state, { qty, monthly, doc, unsold, valueAtRisk, window, batches, rop, lostUnits, excessValue, target: cfg.targetCover, msb: cfg.msb });
+
+  if (shift.active) {
+    headline = state === 'HEALTHY'
+      ? `Stock is fine today, but demand is moving online. ${shift.reason} Don't re-order at old volumes.`
+      : `${headline} Channel shift: ${shift.reason}`;
+  }
 
   return {
     state, qty, monthly, v, doc, unsold, valueAtRisk, window, batches, rop, lostUnits, suggestedOrder, blocking, sellableQty,
-    confidence, confBand: bandOf(confidence), unitValue, excessUnits, excessValue, rsAtStake, urgency, priority, headline, chips,
+    confidence, confBand: bandOf(confidence), unitValue, excessUnits, excessValue, rsAtStake, urgency, priority, headline, chips, shift,
   };
 }
 

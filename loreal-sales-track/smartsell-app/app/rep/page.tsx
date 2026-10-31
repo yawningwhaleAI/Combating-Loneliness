@@ -115,12 +115,13 @@ export default function RepHome() {
                   </div>
                 </div>
                 <div className="mt-3 flex flex-wrap items-center gap-1.5">
-                  {s.flagged === 0 && <StateBadge state="HEALTHY" size="sm" />}
+                  {s.flagged === 0 && s.shift === 0 && <StateBadge state="HEALTHY" size="sm" />}
                   {(['NEAR_EXPIRY', 'AGEING_RISK', 'STOCKOUT_RISK', 'OVERSTOCK', 'DORMANT'] as RiskState[]).filter((st) => s.counts[st] > 0).map((st) => (
                     <span key={st} className={clsx('inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-medium ring-1 ring-inset', STATE_META[st].cls)}>
                       <span className={clsx('h-1.5 w-1.5 rounded-full', STATE_META[st].dot)} /> {s.counts[st]} {STATE_META[st].short}
                     </span>
                   ))}
+                  {s.shift > 0 && <Pill className="bg-violet-50 text-violet-700">{s.shift} channel shift</Pill>}
                   {s.openActions > 0 && <Pill className="bg-amber-50 text-amber-800">{s.openActions} open action{s.openActions > 1 ? 's' : ''}</Pill>}
                 </div>
                 <div className="mt-3 flex items-center justify-between text-xs">
