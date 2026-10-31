@@ -1,7 +1,14 @@
 # 05 · Final Product Concept and Value Proposition
 
 ## 1. Concept in one line
-**SMARTSELL: Sell-Through Selling.** It's a field sales routine plus a companion tool. On every visit, the L'Oréal rep catches slow and ageing stock early, fixes it with the cheapest action that works, rebalances stock across the beat, and sizes orders to what will actually sell. Managers see the rupees rescued and the growth protected.
+**SMARTSELL: a field sales intelligence and inventory intervention system for L'Oréal's on-ground salesforce.** On every visit, the L'Oréal rep catches slow and ageing stock early, fixes it with the cheapest action that works, rebalances stock across the beat, and sizes orders to what will actually sell. Managers see the rupees rescued and the growth protected.
+
+## 1b. Why SMARTSELL is the right answer (the pitch's five pillars)
+1. **It directly addresses the case.** The brief asks for early detection and on-ground intervention. SMARTSELL does both on every visit, rather than offering a generic inventory dashboard.
+2. **It empowers the existing salesforce.** L'Oréal already has people visiting distributors and retailers. No new team, no new distribution network: the reps already there become more effective.
+3. **It balances growth and sustainability.** It recommends replenishment where demand is high and intervention where stock is ageing. This is exactly the tension in the case.
+4. **It is measurable.** It shows reductions in inventory at risk of expiry, expired and damaged inventory, product returns and unnecessary replenishment, and improvements in retailer sell-through, product availability, salesperson productivity and revenue from recovered inventory.
+5. **It is demonstrable.** A judge can use the prototype: select a retailer, inspect inventory, see a risk alert, execute an intervention, and watch the manager view and the outcomes update.
 
 ## 2. Value proposition by stakeholder
 

@@ -25,6 +25,9 @@ NORTH STAR:  ₹ of channel stock at risk of waste (↓)  while  secondary sales
 | **Recommendation acceptance rate** | Accepted or modified ÷ shown | Rep | Weekly | 50–80% (too high = rubber-stamping; too low = bad rules) |
 | **₹ rescued (verified)** | ₹ at risk removed by completed actions, confirmed by recount | Rep → territory | Weekly | Track |
 | **Incremental revenue & gross margin** | (Pilot secondary growth − control growth) × base; × margin | Territory | Monthly | **≥ 0** (guardrail), ideally positive |
+| **Salesperson productivity** | ₹ rescued + ₹ new risk avoided + incremental secondary sales, per rep-hour in the field | Rep | Weekly | Track vs control |
+| **Revenue from recovered inventory** | Value of at-risk stock sold through transfers, bundles or activation instead of being returned | Territory | Weekly | Track |
+| **Unnecessary replenishment avoided** | ₹ of order quantity requested on at-risk/overstocked SKUs that the guardrail removed | Rep → territory | Weekly | Track |
 | **Visit time added** | Visit duration with SMARTSELL − baseline | Rep | Weekly | **≤ 4 min** on flagged outlets |
 | **Data confidence** | % of flagged positions with High confidence | Territory | Weekly | ≥ 70% by week 6 |
 

@@ -1,5 +1,7 @@
 # 07 · Feature Requirements and Prototype Specification
 
+> **Status: built.** See `smartsell-app/README.md` for how to run, test and deploy, and the 5-minute demo script.
+
 **Objective:** a judge can pick up a phone or laptop, play a field rep for 3 minutes and a manager for 1 minute, change the numbers, and watch the logic respond. It must be **reliable offline-ish, resettable, and honest** ("SYNTHETIC DATA" banner always visible; no L'Oréal logos or systems implied).
 
 ---
@@ -101,7 +103,7 @@ Each outlet carries 10–16 SKUs appropriate to its type (salons: Salon Pro plus
 | — | **Hero rebalance** | S1 → S3a transfer | Engine suggests **66 units** (11 case packs of 6; recipient capacity 180) | After: S1 ₹840 left (4 units → bundle), S3a HEALTHY (34 days cover) |
 | **S2** | **Slow-moving, healthy shelf life** (assortment mismatch) | Sai Kirana · Verdé Vitamin C Serum | 24 units, 3/month, 16 months left | `OVERSTOCK` · 240 days cover · no unsold units → diagnose, visibility, cap, transfer to CarePoint chemist. **No discount offered.** |
 | **S3b** | **High-demand stock-out, no surplus nearby** | Powai Wellness Chemist · Verdé Face Wash | 12 units, 60/month | `STOCKOUT_RISK` · 6 days cover · suggested order 62 (→ 60, case pack 12) from D3 |
-| **S4** | **Distributor hidden near-expiry** | D1 · Lumea Hair Colour Burgundy | 900 units (200 days) + 1,200 (520 days), 300/month | `NEAR_EXPIRY` on old batch · 100 units · ₹15,000 · window 80 days. Totals show "210 days of cover". |
+| **S4** | **Distributor hidden near-expiry** | D1 · Lumea Hair Colour Burgundy | 900 units (200 days) + 1,200 (520 days), 300/month | `NEAR_EXPIRY` on old batch · 100 units · ₹13,500 (at distributor price ₹135) · window 80 days. D2 needs it (stock-out risk), so a cross-distributor transfer is suggested. Totals show "210 days of cover". |
 | **S5** | **Poor visibility / weak demand** | Style Corner · Chroma Lipstick Ruby 301 | 30 units, 4/month, signals: behind counter, no tester; peer outlets sell 15/month | `OVERSTOCK` + visibility chips → P5 playbook (tester, placement) |
 | **S6** | **Low-confidence data** | New Bharat General Store · Lumea Conditioner | Retailer verbal, count 40 days old | Confidence Low → "Verify first"; L3+ locked |
 | **S7** | **Luxe guardrail** | Galleria Counter · Maison Éclat EDP | Slow, 9 months left | Ladder excludes L6; manager rejects a discount request in the demo |

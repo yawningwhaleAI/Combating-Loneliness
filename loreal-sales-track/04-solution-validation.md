@@ -1,10 +1,10 @@
 # 04 · Challenging SMARTSELL: Solution Validation and Comparison
 
-## Verdict up front: **MODIFY** (direction is right; framing, scope and centre of gravity must change)
+## Verdict up front: **GO, with refinements** (direction is right; lead with the problem and the on-ground rep)
 
 SMARTSELL as originally framed ("AI-powered field sales intelligence platform") **solves a real problem but answers the wrong question for these judges.** The case asks for an *on-ground sales strategy* with *simple signals* and *specific actions* [F] S1. A tech-first pitch risks looking like we skipped the brief. The winning version is:
 
-> **"Sell-Through Selling": a field sales operating model (visit routine + signals + playbooks + incentives), made executable and measurable by a lightweight SMARTSELL companion. The rules come first, the AI comes later and only where it earns its place.**
+> **SMARTSELL: a field sales intelligence and inventory intervention system that makes L'Oréal's existing on-ground salesforce catch slow stock early and act on it.** The visit routine, signals, playbooks and incentives are built into the product. The decision logic is transparent rules first; ML comes later, and only where it earns its place.
 
 ---
 
@@ -80,7 +80,7 @@ SMARTSELL as originally framed ("AI-powered field sales intelligence platform") 
 |---|---|
 | **A. Tech-led** | AI platform: ML demand forecasting, image recognition, automated replenishment, auto-generated actions, rich dashboards |
 | **B. Process-led** | Pure operating-model change: visit checklist on paper or SFA form, signal → escalation matrix, playbooks, FEFO training, distributor stock norms, incentive redesign. No new tool. |
-| **C. Hybrid (recommended)** | B's operating model + a lightweight SMARTSELL companion (transparent rules engine, smart count, action ladder, transfer matching, closed-loop tracking, manager view). Designed to plug into the existing SFA. |
+| **C. Hybrid (recommended)** | B's operating model built into the SMARTSELL system (transparent rules engine, Smart Count, action ladder, transfer matching, order guardrail, approvals, closed-loop tracking, manager and distributor views). Designed to plug into the existing SFA. |
 | **D. Policy-led** (benchmark) | Change return policy and distributor terms: tighter return caps, distributor-borne expiry, liquidation partner contracts |
 
 ### Scoring (1–5; weights reflect what we believe judges value; scores are our judgement)
@@ -99,7 +99,7 @@ SMARTSELL as originally framed ("AI-powered field sales intelligence platform") 
 
 ### Why C wins
 - **Answers the brief literally** (visit points, simple signals, who to flag, specific actions, near-expiry vs slow) through its operating-model layer.
-- **Shows execution and measurement** through the companion app, which turns "good advice" into a testable system with outcomes.
+- **Shows execution and measurement** through the SMARTSELL system, which turns "good advice" into a testable system with outcomes.
 - **Avoids the AI trap:** transparent rules a sales director can audit in 5 minutes.
 - **Implementable**: rides on existing DMS/SFA data; the pilot needs no new hardware.
 
@@ -114,7 +114,7 @@ SMARTSELL as originally framed ("AI-powered field sales intelligence platform") 
 
 | Original | Refined |
 |---|---|
-| "AI-powered Field Sales Intelligence and Inventory Intervention System" | **"SMARTSELL: Sell-Through Selling"**, a field operating model and companion that helps every L'Oréal rep catch slow stock early, fix it cheaply, and grow sell-out |
+| "AI-powered Field Sales Intelligence and Inventory Intervention System" | **"SMARTSELL: Field Sales Intelligence and Inventory Intervention System"**, without "AI-powered". Positioned as helping every L'Oréal rep on the ground catch slow stock early, fix it cheaply, and grow sell-out |
 | AI at the centre | **The rep's visit at the centre**; rules engine as enabler; AI as roadmap |
 | Four modules as software | Four modules as **capabilities of a routine**: *See* (Stock Intelligence) → *Prioritise* (Risk Engine) → *Act* (Action Engine) → *Learn* (Manager Intelligence) |
 | Discount/bundle/transfer suggestions | An **8-step intervention ladder** with brand-tier guardrails and approval levels |

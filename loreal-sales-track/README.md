@@ -6,7 +6,7 @@ Research, validation, solution design, prototype specification and deck strategy
 
 | # | File | Contents |
 |---|---|---|
-| 00 | `00-executive-summary.md` | Plain-English problem, **MODIFY → GO** verdict, concept, top 5 risks, demo features, roadmap, decisions needed |
+| 00 | `00-executive-summary.md` | Plain-English problem, **GO (with refinements)** verdict, concept, top 5 risks, demo features, roadmap, decisions needed |
 | 01 | `01-company-industry-research.md` | L'Oréal India business, brands, channels, field-sales model, causes of waste, existing systems, sustainability |
 | 02 | `02-problem-diagnosis.md` | Supply-chain map, sell-in vs sell-out, inventory lifecycle, definitions, pain points, gaps, why not cut orders, problem tree |
 | 03 | `03-benchmarks.md` | Dabur, HUL Shikhar, AICPDF, SFA/DMS vendors, image recognition, L'Oréal initiatives, competitive positioning |
@@ -22,6 +22,7 @@ Research, validation, solution design, prototype specification and deck strategy
 | — | `sources.md` | Source register with dates, URLs, reliability grades and verification flags |
 | — | `model/risk_engine_reference.py` | Reference risk engine (reproduces every worked example) |
 | — | `model/financial_model.py`, `model/scenarios.csv` | Reproducible business case |
+| — | **`smartsell-app/`** | **Working prototype** (Next.js), deployable to Vercel. See its README. |
 
 **Labels used throughout:** **[F]** sourced fact (with source ID) · **[A]** assumption · **[H]** hypothesis to test · **[R]** recommendation.
 **Data:** no L'Oréal internal data was used. All prototype data is synthetic.
