@@ -163,7 +163,7 @@ const OVERRIDES: Record<string, Override> = {
   // Supporting: derma stock-out at chemist, no donor nearby
   [posId('o-carepoint', 'derma-cream')]: { batches: [[800, 4]], monthly: 20, source: 'scan', countedDaysAgo: 4, requested: 6 },
   // Supporting: seasonal overstock (sunscreen in winter)
-  [posId('o-evershine', 'verde-sunscreen')]: { batches: [[600, 60]], monthly: 6, signals: ['CARTONS'], countedDaysAgo: 11, requested: 12 },
+  [posId('o-evershine', 'verde-sunscreen')]: { batches: [[600, 60]], monthly: 6, signals: ['CARTONS', 'QCOMM_SHIFT'], countedDaysAgo: 11, requested: 12 },
   // S3b high-demand stock-out with no surplus nearby
   [posId('o-powai', 'verde-facewash')]: { batches: [[300, 12]], monthly: 60, source: 'scan', countedDaysAgo: 2, requested: 24 },
   [posId('o-ghatkopar', 'lumea-burgundy')]: { batches: [[95, 28]], monthly: 7, countedDaysAgo: 10 },

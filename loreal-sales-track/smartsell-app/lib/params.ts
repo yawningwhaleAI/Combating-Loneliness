@@ -43,6 +43,7 @@ export const SIGNALS: { code: SignalCode; label: string; hint: string }[] = [
   { code: 'DAMAGED', label: 'Dented / leaking / heat-damaged', hint: 'Handling or storage issue' },
   { code: 'COMPETITOR_SCHEME', label: 'Competitor running heavy scheme', hint: 'Demand diverted' },
   { code: 'SHOPPER_ASKED', label: 'Shopper asked for out-of-stock item', hint: 'Lost sale' },
+  { code: 'QCOMM_SHIFT', label: 'Shoppers say they buy it on quick commerce', hint: 'Channel shift: GT velocity falling, so resize orders and rebalance' },
 ];
 
 export const DIAGNOSIS_REASONS = [

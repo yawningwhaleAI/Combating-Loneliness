@@ -89,6 +89,26 @@ export default function Landing() {
         </Card>
       </section>
 
+      {/* 2b. Evidence from public research */}
+      <section>
+        <p className="text-xs font-semibold uppercase tracking-wider text-brand">Grounded in public research (India)</p>
+        <div className="mt-3 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          {[
+            { k: 'Cutting orders costs growth', v: 'When channel shift left GT distributors overstocked, one large Indian FMCG company largely halted primary sales for 7–8 days to cut stock from ~30 to ~21 days, and guided to a revenue decline.', s: 'Brokerage notes on Dabur Q2 FY25, Oct 2024' },
+            { k: 'Demand is moving to quick commerce', v: 'E-commerce reached ~18% of FMCG sales in the top-8 metros, over three-quarters of it quick commerce, while kirana volumes grew ~1%. L\'Oréal itself is prioritising quick commerce.', s: 'NielsenIQ Q4 2025 · Business Standard, Oct 2026' },
+            { k: 'Discount dumping creates conflict', v: 'The distributors\' federation (AICPDF) accused FMCG firms of offloading near-expiry stock through quick commerce at deep discounts, and raised unsettled return claims.', s: 'Storyboard18, Nov 2024 · Inc42' },
+            { k: 'Expiry is printed on every pack', v: 'Cosmetics Rules 2020 require a "use before" or expiry date on the label, so a rep can capture batch age in seconds, without new hardware.', s: 'CDSCO Cosmetics Rules 2020 (amended 2025)' },
+          ].map((x) => (
+            <Card key={x.k} className="p-5">
+              <h3 className="text-sm font-semibold">{x.k}</h3>
+              <p className="mt-1 text-sm text-ink-mute">{x.v}</p>
+              <p className="mt-2 text-[11px] uppercase tracking-wide text-ink-mute/80">{x.s}</p>
+            </Card>
+          ))}
+        </div>
+        <p className="mt-2 text-xs text-ink-mute">SMARTSELL&apos;s design answers each of these: SKU-level guardrails instead of blanket cuts, rebalancing and order resizing for channel shift, discounts as a guarded last resort, and Smart Count of printed batch dates. Full sources: research folder, sources.md.</p>
+      </section>
+
       {/* 3. The solution */}
       <section>
         <p className="text-xs font-semibold uppercase tracking-wider text-brand">Our solution</p>

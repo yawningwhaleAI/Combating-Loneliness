@@ -55,6 +55,7 @@ export function unitValueOf(p: Position, sku: Sku) {
 export function effectiveMonthly(p: Position, simDate: string) {
   let m = p.monthlySales;
   if (p.signals.includes('DUST') || p.signals.includes('NO_MOVEMENT')) m *= SIGNAL_VELOCITY_ADJ;
+  if (p.signals.includes('QCOMM_SHIFT')) m *= 0.85; // assumed: some outlet demand has moved online
   if (p.upliftFactor && p.upliftUntil && p.upliftUntil >= simDate) m *= p.upliftFactor;
   return m;
 }
@@ -164,6 +165,7 @@ export function evaluate(p: Position, sku: Sku, simDate: string): Eval {
   if (p.signals.includes('NO_TESTER')) chips.push('No tester');
   if (p.signals.includes('NOT_ASKED')) chips.push('Assortment mismatch?');
   if (p.signals.includes('RETURN_REQUEST')) chips.push('Return requested');
+  if (p.signals.includes('QCOMM_SHIFT')) chips.push('Demand moving to quick commerce');
   if (p.paused) chips.push('Replenishment paused');
   if (p.upliftFactor && p.upliftUntil && p.upliftUntil >= simDate) chips.push(`Intervention active ×${p.upliftFactor}`);
 

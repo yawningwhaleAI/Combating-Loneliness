@@ -72,7 +72,10 @@ export function applyAction(positions: Record<string, Position>, a: Action, date
       takeFefo(p, units);
       out.unitsMoved = units;
       out.rsRescued = a.code === 'END_OF_LIFE' ? units * e.unitValue * 0.5 : 0;
-      out.note = a.code === 'END_OF_LIFE' ? `${units} units routed to controlled end-of-life (~50% value recovered)` : `${units} units returned; root cause recorded`;
+      const batches = e.batches.filter((b) => b.unsold > 0.5).map((b) => `${b.code} (EXP ${b.expiry})`).join(', ');
+      out.note = a.code === 'END_OF_LIFE'
+        ? `${units} units routed to controlled end-of-life (~50% value recovered). Evidence: ${batches}`
+        : `${units} units returned. Claim evidence auto-filled: batches ${batches}, qty ${units}, reason & date logged`;
       break;
     }
     case 'VISIBILITY':

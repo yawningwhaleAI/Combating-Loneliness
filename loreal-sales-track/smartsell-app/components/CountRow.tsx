@@ -88,7 +88,7 @@ export function CountRow({ p, defaultOpen, counted }: { p: Position; defaultOpen
 
           <div>
             <div className="mb-1 flex items-center justify-between">
-              <span className="text-xs font-medium text-ink-mute">Batches (printed on every pack: batch code + expiry)</span>
+              <span className="text-xs font-medium text-ink-mute">Batches (printed on every pack: batch code + expiry)<span className="block font-normal">Month-only label? &quot;EXP 02/2027&quot; → 28 Feb 2027 · &quot;Use before 02/2027&quot; → 1 Feb 2027 (Cosmetics Rules 2020, as amended)</span></span>
               <button className="flex items-center gap-1 text-xs font-medium text-brand" onClick={() => { setTouched(true); setBatches((b) => [...b, { code: '', expiry: addDays(simDate, 365), qty: 0 }]); }}><Plus size={13} /> Add batch</button>
             </div>
             <div className="space-y-2">

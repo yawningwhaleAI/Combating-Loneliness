@@ -8,7 +8,7 @@ export type Role = 'rep' | 'manager' | 'distributor';
 
 export type SignalCode =
   | 'DUST' | 'CARTONS' | 'NO_MOVEMENT' | 'FEFO_WRONG' | 'OLD_MRP' | 'NOT_ON_SHELF'
-  | 'NO_TESTER' | 'NOT_ASKED' | 'RETURN_REQUEST' | 'DAMAGED' | 'COMPETITOR_SCHEME' | 'SHOPPER_ASKED';
+  | 'NO_TESTER' | 'NOT_ASKED' | 'RETURN_REQUEST' | 'DAMAGED' | 'COMPETITOR_SCHEME' | 'SHOPPER_ASKED' | 'QCOMM_SHIFT';
 
 export interface Sku {
   id: string;

@@ -93,6 +93,16 @@ export default function DistributorView() {
       </div>
 
       <Card className="p-5">
+        <SectionTitle title="Return claims & evidence" sub="Disputes over claims usually come down to evidence. SMARTSELL attaches batch, quantity, reason and date to every return automatically." />
+        {(() => {
+          const claims = actions.filter((a) => (a.code === 'RETURN' || a.code === 'END_OF_LIFE') && positions[a.positionId] && distributorOf(positions[a.positionId]) === distributorId);
+          return claims.length === 0 ? <p className="text-sm text-ink-mute">No returns raised. With SMARTSELL, most at-risk stock is moved or sold before it needs one.</p> : (
+            <ul className="space-y-2 text-sm">{claims.map((c) => <li key={c.id} className="rounded-xl border border-slate-200 p-3"><div className="flex flex-wrap justify-between gap-2"><span className="font-medium">{c.title} · {nodeName(positions[c.positionId].nodeId)}</span><StatusPill status={c.status} /></div><p className="text-xs text-ink-mute">{c.outcome?.note ?? 'Evidence will be attached on execution (batch codes, quantity, reason code, date, photo).'}</p></li>)}</ul>
+          );
+        })()}
+      </Card>
+
+      <Card className="p-5">
         <SectionTitle title="Godown positions & suggested primary order" sub="Requested vs suggested primary order from L'Oréal, by SKU" />
         <div className="overflow-x-auto">
           <table className="w-full min-w-[820px] text-sm">

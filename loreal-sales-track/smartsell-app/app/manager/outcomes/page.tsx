@@ -24,6 +24,8 @@ export default function Outcomes() {
   const wasteAvoided = Math.max(0, bau.expiredValue - smart.expiredValue);
   const lostAvoided = Math.max(0, bau.lostValue - smart.lostValue);
   const unitsSaved = Math.max(0, bau.expiredUnits - smart.expiredUnits);
+  const smartRate = smart.soldValue > 0 ? smart.expiredValue / smart.soldValue : 0;
+  const bauRate = bau.soldValue > 0 ? bau.expiredValue / bau.soldValue : 0;
   const byCode = Object.entries(actions.filter((a) => a.outcome && !a.synthetic).reduce<Record<string, number>>((m, a) => { m[a.code] = (m[a.code] ?? 0) + (a.outcome?.rsRescued ?? 0) + (a.outcome?.riskAvoided ?? 0); return m; }, {}))
     .map(([code, v]) => ({ code: code.replace('_', ' ').toLowerCase(), value: Math.round(v) }));
   const funnel = [
@@ -49,6 +51,17 @@ export default function Outcomes() {
             <Stat label="Waste avoided" value={inr(wasteAvoided)} sub={`${num(unitsSaved)} units not destroyed`} tone="green" icon={<Leaf size={14} />} />
             <Stat label="Sales protected" value={inr(lostAvoided)} sub="fewer empty shelves" tone="green" icon={<Package size={14} />} />
           </div>
+          <Card className="flex flex-wrap items-center gap-6 p-5">
+            <div>
+              <p className="text-xs font-medium uppercase tracking-wide text-ink-mute">Returns as % of sell-out (simulated territory)</p>
+              <p className="mt-1 text-sm text-ink-soft">The case caps return / expired / damaged stock at <b>~1.5% of revenue</b>. Here is how the two worlds compare.</p>
+            </div>
+            <div className="flex gap-6">
+              <div><p className="text-2xl font-semibold text-emerald-700">{(smartRate * 100).toFixed(2)}%</p><p className="text-xs text-ink-mute">SMARTSELL</p></div>
+              <div><p className="text-2xl font-semibold text-red-700">{(bauRate * 100).toFixed(2)}%</p><p className="text-xs text-ink-mute">Business-as-usual</p></div>
+              <div><p className="text-2xl font-semibold text-ink-soft">~1.5%</p><p className="text-xs text-ink-mute">Case benchmark</p></div>
+            </div>
+          </Card>
           <div className="grid gap-5 lg:grid-cols-2">
             <Card className="p-5">
               <SectionTitle title="Cumulative waste and lost sales" sub="Lower is better" />
