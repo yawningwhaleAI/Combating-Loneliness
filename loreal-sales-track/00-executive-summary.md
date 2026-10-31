@@ -112,7 +112,7 @@ Problem → why the blunt fix fails → root insight → SMARTSELL for the on-gr
 ---
 
 ### ✅ Decision needed from you
-1. Review the prototype (`smartsell-app/`) and tell us what to change.
-2. Deploy to Vercel (project root directory: `loreal-sales-track/smartsell-app`)?
+1. Review the live prototype at https://smartsell-loreal.vercel.app and tell us what to change.
+2. Confirm the competition's presentation time limit and whether real brand names are allowed.
 3. Fictional brands (default) or real L'Oréal brand names in the prototype?
 4. Any confirmed presentation time limit or format (affects slide count)?

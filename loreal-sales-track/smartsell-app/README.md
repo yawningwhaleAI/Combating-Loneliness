@@ -1,5 +1,7 @@
 # SMARTSELL prototype
 
+**Live demo:** https://smartsell-loreal.vercel.app (Vercel project `smartsell-loreal`, production, public)
+
 Field sales intelligence and inventory intervention for L'Oréal's on-ground salesforce. Built for the L'Oréal Sustainability Challenge 2026, Sales Track.
 
 > **Synthetic data only.** Brands (Lumea, Verdé, Chroma, DermaPure, Salon Pro, Maison Éclat), outlets, people and numbers are fictional. The app is not connected to any L'Oréal system. The case figures (~1.5% returns, ~1% handling) come from the brief.
