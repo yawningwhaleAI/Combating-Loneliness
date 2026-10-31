@@ -1,5 +1,7 @@
 # 11 · Slide-by-Slide Presentation Blueprint
 
+> **Built:** the final editable deck is `deck/SMARTSELL_LOreal_Sales_Track_2026.pptx` (17 main slides + 8 appendix, real product screenshots, speaker notes). The speaker script, timing, risks and Q&A are in `deck/presenter-pack.md`. The blueprint below was the plan; the deck adds a quick-commerce slide, a four-outlet examples slide and a simulation-proof slide.
+
 **Format recommendation:** **12 core slides + a 3-minute live demo + 6 appendix slides.** That fits a ~12–15 minute slot; confirm the competition's time limit. Every title is an *action title* (the claim), not a topic. A small **"Fact / Assumption"** legend sits in the footer of every number-bearing slide.
 
 **Storyline in one breath:** *Waste is decided when the order is taken and discovered when the return arrives. The rep is in the shop many times in between. SMARTSELL gives them the signals, the playbook and the incentive to act early, as a field sales intelligence system that turns each visit into a measurable, rupee-tracked routine. Less waste, no lost growth, proven in a 16-week pilot.*

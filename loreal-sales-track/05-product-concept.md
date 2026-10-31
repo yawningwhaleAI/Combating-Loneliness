@@ -187,6 +187,19 @@ Pilot this as a **shadow scorecard** first (visible, not paid), then make it pai
 
 ---
 
+## 8b. Quick commerce: our approach (built into the prototype)
+
+Quick commerce isn't on a rep's beat, since dark stores are managed centrally by key-account teams. But it is a major cause of general-trade waste: when demand moves online, general-trade distributors keep receiving old volumes (NielsenIQ: e-com ≈18% of FMCG in the top-8 metros, over three-quarters of it quick commerce; Dabur's 2024 correction). SMARTSELL handles it in four steps:
+
+| Step | What happens | In the prototype |
+|---|---|---|
+| **Detect** | Outlet sell-out fell 20%+ over 3 months while the brand's online sales in the city grew 20%+, or the rep ticks "Shoppers say they buy it on quick commerce" | "⇄ Shifting to quick commerce" badge; chip with the outlet trend vs online growth |
+| **Resize** | The order guardrail uses a 21-day cover norm instead of 30, so general trade stops being stocked at old volumes | Suggested order drops (e.g. the retailer asks for 12, guardrail suggests 0) |
+| **Hand off** | The rep sends a channel-shift flag to the quick-commerce KAM and demand planning: move allocation online | "Hand off to the quick-commerce key-account team" recommendation (owner: Q-comm KAM) |
+| **Route** | Fresh stock follows demand online; ageing stock is rebalanced within general trade and **never dumped on quick commerce at a discount** (platforms apply shelf-life acceptance norms, and the distributors' federation AICPDF has objected publicly) | Guardrail text on scheme and end-of-life actions; manager "Quick commerce: channel shift" card with ₹ of general-trade loading avoided |
+
+City online-growth figures in the prototype are synthetic; a pilot would take them from L'Oréal's quick-commerce account data.
+
 ## 9. What we deliberately don't build (avoiding unnecessary AI)
 - No black-box "AI risk score". Every number is traceable to inputs.
 - No computer vision in the MVP (phase 3 option for reading batch codes).

@@ -22,6 +22,7 @@ Research, validation, solution design, prototype specification and deck strategy
 | — | `sources.md` | Source register with dates, URLs, reliability grades and verification flags |
 | — | `model/risk_engine_reference.py` | Reference risk engine (reproduces every worked example) |
 | — | `model/financial_model.py`, `model/scenarios.csv` | Reproducible business case |
+| — | **`deck/`** | **Final PowerPoint deck** (`SMARTSELL_LOreal_Sales_Track_2026.pptx`), presenter pack (script, timing, risks, Q&A), screenshots, build script |
 | — | **`smartsell-app/`** | **Working prototype** (Next.js). Live at https://smartsell-loreal.vercel.app. See its README. |
 
 **Labels used throughout:** **[F]** sourced fact (with source ID) · **[A]** assumption · **[H]** hypothesis to test · **[R]** recommendation.
